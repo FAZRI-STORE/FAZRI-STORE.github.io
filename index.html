@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>APK Uploader</title>
+</head>
+<body>
+    <h1>APK Uploader</h1>
+    <input type="file" id="fileInput" accept=".apk">
+    <button onclick="uploadApk()">Upload</button>
+
+    <script src="https://unpkg.com/github-api/dist/GitHub.bundle.min.js"></script>
+    <script>
+        const accessToken = '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';
+        const owner = 'YOUR_GITHUB_USERNAME';
+        const repo = 'YOUR_GITHUB_REPOSITORY';
+        const uploadPath = 'uploads/';
+
+        function uploadApk() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const fileName = file.name;
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const fileContent = event.target.result;
+
+                const octokit = new GitHub({token: accessToken});
+                octokit.repos.createOrUpdateFile({
+                    owner: owner,
+                    repo: repo,
+                    path: uploadPath + fileName,
+                    message: 'Upload APK',
+                    content: btoa(fileContent),
+                    committer: {
+                        name: owner,
+                        email: owner + '@users.noreply.github.com'
+                    }
+                }).then(response => {
+                    console.log('APK uploaded successfully!');
+                    console.log(response);
+                }).catch(error => {
+                    console.error('Error uploading APK:', error);
+                });
+            };
+            reader.readAsBinaryString(file);
+        }
+    </script>
+</body>
+</html>
