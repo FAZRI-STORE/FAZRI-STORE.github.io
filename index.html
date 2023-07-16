@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>APK Uploader</title>
+    <title> Uploader</title>
 </head>
 <body>
     <h1>APK Uploader</h1>
     <input type="file" id="fileInput" accept=".apk">
     <button onclick="uploadApk()">Upload</button>
 
-    <script src="https://unpkg.com/github-api/dist/GitHub.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@octokit/rest@18.0.4/dist/octokit.min.js"></script>
     <script>
         const accessToken = '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';
         const owner = 'FAZRI-STORE';
         const repo = 'FAZRI-STORE.github.io';
-        const uploadPath = 'uploads/';
+        const uploadPath = 'apks/';
 
         function uploadApk() {
             const fileInput = document.getElementById('fileInput');
@@ -24,8 +24,8 @@
             reader.onload = function (event) {
                 const fileContent = event.target.result;
 
-                const octokit = new GitHub({token: accessToken});
-                octokit.repos.createOrUpdateFile({
+                const octokit = new Octokit({ auth: accessToken });
+                octokit.rest.repos.createOrUpdateFileContents({
                     owner: owner,
                     repo: repo,
                     path: uploadPath + fileName,
