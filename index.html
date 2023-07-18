@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Uploader</title>
+    <title>APK Uploader</title>
 </head>
 <body>
     <h1>APK Uploader</h1>
@@ -10,7 +10,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@octokit/rest@18.0.4/dist/octokit.min.js"></script>
     <script>
-        const accessToken = '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';
+        const accessToken = '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';
         const owner = 'FAZRI-STORE';
         const repo = 'FAZRI-STORE.github.io';
         const uploadPath = 'apks/';
@@ -24,7 +24,7 @@
             reader.onload = function (event) {
                 const fileContent = event.target.result;
 
-                const octokit = new Octokit({ auth: accessToken });
+                const octokit = new Octokit.Octokit({ auth: accessToken });
                 octokit.rest.repos.createOrUpdateFileContents({
                     owner: owner,
                     repo: repo,
